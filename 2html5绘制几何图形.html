@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+        function init() {
+            var can = document.getElementById('can');
+            var ctx = can.getContext('2d'); 
+            ctx.fillStyle = 'blue'; //填充色
+            ctx.fillRect(50, 50, 100, 60);  //实心矩形
+
+            ctx.strokeStyle = 'red';  //线色 
+            ctx.lineWidth = 6; //线宽
+            ctx.lineJoin = 'miter'; //miter尖角， round圆角， bevel斜角
+            ctx.strokeRect(100, 150, 100, 65); //空心矩形
+        }
+    </script>
+</head>
+<body onload="init();">
+    <canvas id="can" width="400" height="300" style="border: 1px solid #ccc;">
+        您当前的浏览器版本不支持canvas元素，请更换或升级浏览器版本
+    </canvas>
+</body>
+</html>

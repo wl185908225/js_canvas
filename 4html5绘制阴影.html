@@ -1,0 +1,46 @@
+<!--
+    shadowBlur:阴影模糊度，浮点数越大越模糊
+    shadowColor:阴影颜色
+    shadowOffsetX:X方向的偏移
+    shadowOffsetY:y方向的偏
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>                                                            
+    <script type="text/javascript">
+        function init() {
+            var can = document.getElementById('can');
+            var ctx = can.getContext('2d'); 
+            ctx.fillStyle = 'blue'; //填充色
+            ctx.font = '34px 黑体';
+            ctx.fillText('大家好', 100, 50);
+
+            ctx.shadowBlur = 1.5;
+            ctx.shadowColor = '#00f';
+            ctx.shadowOffsetX = -5;
+            ctx.shadowOffsetY = 5;
+            ctx.fillStyle = 'green';
+            ctx.fillRect(50, 60, 50, 50);
+
+
+            ctx.shadowBlur = 2;
+            ctx.shadowColor = '#000';
+            ctx.shadowOffsetX = -5;
+            ctx.shadowOffsetY = 5;
+            ctx.strokeStyle = 'green';
+            ctx.font = '40px 微软雅黑';
+            ctx.strokeText('大家好a', 200, 150);
+
+
+
+        }
+    </script>
+</head>
+<body onload="init();">
+    <canvas id="can" width="400" height="300" style="border: 1px solid #ccc;">
+        您当前的浏览器版本不支持canvas元素，请更换或升级浏览器版本
+    </canvas>
+</body>
+</html>

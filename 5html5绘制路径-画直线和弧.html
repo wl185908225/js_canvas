@@ -1,0 +1,56 @@
+<!--
+    调用CanvasRenderingContext2D对象的beginPath()方法开始定义路径
+    调用CanvasRenderingContext2D对象的各种方法添加路径
+    调用CanvasRenderingContext2D的closePath方法关闭路径
+    调用CanvasRenderingContext2D的fill()或者stroke()方法来填充路径或者绘制路径边框
+
+
+    添加路径的方法：
+        -arc()方法创建弧/曲线（用于创建圆或者部分圆）
+        -arcTo()方法在画布上创建介于两个切线之间的弧/曲线
+        -bezierCurveTo()方法通过使用表示三次贝塞尔曲线的指定控制点，向当前路径添加一个点。
+                        方法在画布上创建介于两个切线之间的弧/曲线
+        -lineTo()方法添加一个点，然后创建从该点到画布中的指定点的线条
+        -moveTo()把路径移动到画布中额指定点，不创建线条
+        -quadraticCurveTo()方法通过使用表示二次贝塞尔曲线的指定控制点，向当前路径添加一个点
+        -rect()方法创建矩形
+        -strokeStyle 设置线条样式
+        -lineWidth 设置线条宽度
+        -rect(x, y, x-w, y-h) 画矩形
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>                                                            
+    <script type="text/javascript">
+        function init() {
+            var can = document.getElementById('can');
+            var ctx = can.getContext('2d'); 
+
+            /*画线*/
+            ctx.beginPath();
+            ctx.moveTo(80, 80);
+            ctx.lineTo(150, 150);
+            ctx.closePath();
+            ctx.strokeStyle = 'orange';
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+
+            /*画矩形*/
+            ctx.beginPath();
+            ctx.rect(180, 180, 100, 60);
+            ctx.closePath();
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 5;
+            ctx.stroke();
+        }
+    </script>
+</head>
+<body onload="init();">
+    <canvas id="can" width="400" height="300" style="border: 1px solid #ccc;">
+        您当前的浏览器版本不支持canvas元素，请更换或升级浏览器版本
+    </canvas>
+</body>
+</html>

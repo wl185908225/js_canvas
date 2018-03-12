@@ -1,0 +1,36 @@
+<!--
+    线性渐变
+        CanvasGradient代表渐变填充
+            createLinearGradient(sx, sy, ex, ey)
+            createRadialGradient(sx, sy,sr, ex, ey, er)
+        CanvasPattern代表位团填充  //图片填充
+
+    使用渐变步骤
+        1、ctx.createLinearGradient(x, y, xend, yend)返回CanvasGradient对象
+        2、调用CanvasGradient对象的addColorStop(offset,color)向线性渐变中添加颜色，offset值在0-1之间
+        3、将CanvasGradient对象赋值给ctx.fillStyle或者strokeStyle属性
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>                                                            
+    <script type="text/javascript">
+        function init() {
+            var can = document.getElementById('can');
+            var ctx = can.getContext('2d'); 
+
+            var gred = ctx.createLinearGradient(60, 0, 200, 0);
+            gred.addColorStop(0.5, '#000');
+            gred.addColorStop(1, '#ddd');
+            ctx.fillStyle = gred;
+            ctx.fillRect(60, 60, 200, 85);
+        }
+    </script>
+</head>
+<body onload="init();">
+    <canvas id="can" width="400" height="300" style="border: 1px solid #ccc;">
+        您当前的浏览器版本不支持canvas元素，请更换或升级浏览器版本
+    </canvas>
+</body>
+</html>

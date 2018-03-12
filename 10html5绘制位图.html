@@ -1,0 +1,45 @@
+<!--
+    -drawImage(Image image, x, y)
+        img       规定要使用的图像、画布、视频
+        sx        可选，开始剪切的x坐标位置
+        sy        可选，开始剪切的y坐标位置
+        swidth    可选，被剪切图像的宽度
+        sheight   可选，被剪切图像的高度
+        x         在画布上放置图像的x坐标位置
+        y         在画布上放置图像的y坐标位置
+        width     可选，要使用的图像的宽度（伸展或缩小图像）
+        height    可选，要使用的图像的高度（伸展或缩小图像）
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>                                                            
+    <script type="text/javascript">
+        function init() {
+            var can = document.getElementById('can');
+            var ctx = can.getContext('2d'); 
+            var img = new Image();
+            img.src = "./image/avatar5.png";
+            img.onload = function() {
+                //画原图
+                ctx.drawImage(img, 20, 20);
+
+                //缩放
+                ctx.drawImage(img, 250, 20, 100, 80);   //画布位置250,20   图片大小100,80
+
+                //截取后100%显示
+                ctx.drawImage(img, 80, 80, 40, 40, 400, 20, 40, 40); //图片上(80,80)处截取40,40大小图片，放置画布400,20处，显示图片大小40,40
+
+                //截取后缩放显示
+                ctx.drawImage(img, 80, 80, 40, 40, 480, 20, 40, 30);
+            }
+        }
+    </script>
+</head>
+<body onload="init();">
+    <canvas id="can" width="800" height="400" style="border: 1px solid #ccc;">
+        您当前的浏览器版本不支持canvas元素，请更换或升级浏览器版本
+    </canvas>
+</body>
+</html>

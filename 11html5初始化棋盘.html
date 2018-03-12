@@ -1,0 +1,223 @@
+<!---->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>                                                            
+    <script type="text/javascript">
+        var drawedItems = new Array(); //存放已有棋子坐标
+
+        var maps = new Array(15);
+        for(var i=0; i<15; i++) {
+            maps[i] = new Array(15);
+
+            for(var j=0; j<15; j++) {
+                maps[i][j] = 0;
+            }
+        }
+
+        //初始化图片
+        var black = new Image();
+        var white = new Image();
+        black.src = './image/black.png';
+        white.src = './image/white.png';
+
+        var ctx; //定义画布对象
+        var isBlack = true;  //初始为黑子
+
+        //棋盘距离浏览器左侧距离
+        var leftOffset = 0;
+        function _getOffsetLeft() {
+            var can = document.getElementById('can');
+            leftOffset = can.offsetLeft;
+        }
+        
+
+        //初始化棋盘
+        function _init() {
+            //初始画布对象
+            var can = document.getElementById('can');
+            ctx = can.getContext('2d'); 
+            ctx.strokeStyle = "#fff";
+            for(var i=0; i<15; i++) {
+                for(var j=0; j<15; j++) {
+                    ctx.strokeRect(j*40, i*40, 40, 40);
+                }
+            }
+        }
+
+        //点击下棋
+        function _play(e) {
+            _getOffsetLeft();
+
+            //点击canvas坐标
+            var x = e.clientX - leftOffset;
+            var y = e.clientY - 30;
+            console.log('x:' + x + '/' + 'y:' + y);
+
+            var row;
+            var col;
+            row = _getPostionIntval(x);
+            col = _getPostionIntval(y);
+
+            //检查是否row,col处是否有子
+            var flag = _checkItem(row*40 - 20, col*40 - 20);
+            if(!flag) {
+                //绘制图片
+                ctx.drawImage(isBlack ? black : white, row*40 - 20, col*40 - 20);
+
+                if(isBlack) {
+                    maps[row][col] = 2; //黑子
+                } else {
+                    maps[row][col] = 1; //白子
+                }
+
+                isBlack = !isBlack; //切换为对方
+
+                _isWin(maps[row][col], row, col); //判断输赢
+            }
+            
+        }
+
+
+        /*获取x或者y整点位置值*/
+        function _getPostionIntval(v) {
+            if(v%40>=20) {
+                return parseInt(v/40) + 1;
+            } else {
+                return parseInt(v/40);
+            }
+        }
+
+
+        /*检查row,col处是否有子*/
+        function _checkItem(_x, _y) {
+            var hasItem = false; //不存在
+            var obj = { x: _x, y: _y };
+            for(var i=0; i<drawedItems.length;i++) {
+                if(drawedItems[i].x==obj.x && drawedItems[i].y==obj.y) {
+                    hasItem = true;
+                    break;
+                }
+            }
+
+            //不存在，保存
+            if(!hasItem) {
+                drawedItems.push(obj);
+            }
+
+            return hasItem;   
+        }
+
+
+        /*@param t  1白2黑*/
+        function _isWin(t, row, col) {
+            var orgRow = row;
+            var orgCol = col;
+            var total = 1;
+
+            //水平方向判断
+            while(row-1>=0 && maps[row-1][col]==t) {
+                total++;
+                row--;
+            }
+            row = orgRow;
+            col = orgCol;
+            while(row+1<=15 && maps[row+1][col]==t) {
+                total++;
+                row++;
+            }
+             _alertResult(total, t);
+
+
+            //垂直方向
+            row = orgRow;
+            col = orgCol;
+            total = 1;
+            while(col-1>=0 && maps[row][col-1]==t) {
+                total++;
+                col--;
+            }
+            row = orgRow;
+            col = orgCol;
+            while(col+1<=15 && maps[row][col+1]==t) {
+                total++;
+                col++;
+            }
+             _alertResult(total, t);
+
+
+            //左下，右上
+            row = orgRow;
+            col = orgCol;
+            total = 1;
+            while(col-1>=0 && row+1<=15 && maps[row+1][col-1]==t) {
+                row++;
+                col--;
+                total++;
+            }
+            row = orgRow;
+            col = orgCol;
+            while(col+1<=15 && row-1>=0 && maps[row-1][col+1]==t) {
+                row--;
+                col++;
+                total++;
+            }
+             _alertResult(total, t);
+
+
+            /*左上右下*/
+            row = orgRow;
+            col = orgCol;
+            total = 1;
+            while(col-1>=0 && row-1>=0 && maps[row-1][col-1]==t) {
+                row--;
+                col--;
+                total++;
+            }
+            row = orgRow;
+            col = orgCol;
+            while(col+1<=15 && row+1>=15 && maps[row+1][col+1]==t) {
+                row++;
+                col++;
+                total++;
+            }
+            _alertResult(total, t);
+
+        }
+
+
+        function _alertResult(total, t) {
+            if(total>=5) {
+                if(t==1) {
+                    _confirm('白子胜'); 
+                } else {
+                    _confirm('黑子胜');
+                }
+            }
+        }
+
+        function _confirm(str) {
+            var r=confirm(str);
+            if (r==true) {
+                location.reload();
+            } else {
+                location.reload();
+            }
+        }
+
+        window.onresize = function(){ 
+            //重新计算左侧偏移量
+            _getOffsetLeft();
+        }
+    </script>
+</head>
+<body onload="_init();">
+    <div style="width: 600px; height: 600px; margin: 30px auto;border: 1px solid #000;background: url('./image/bak.jpg');">
+        <canvas id="can" width="600" height="600" onclick="_play(event);">
+            您当前的浏览器版本不支持canvas元素，请更换或升级浏览器版本
+        </canvas>
+    </div>
+    
+</body>
+</html>
